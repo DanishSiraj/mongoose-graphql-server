@@ -4,10 +4,7 @@ const {connectDatabases} = require('./utils/connections');
 const {addSchemaFields, composer} = require('./utils/schema-composer');
 const initGraphqlServer = require('./utils/graphQLServer.js');
 
-connectDatabases().then(async () => {
-  const stringModel = require('./models/string.model');
-  const userModel = require('./models/user.model');
-  const performanceModel = require('./models/performance.model');
+const generateSchema = (mongoose) => {
   const models = {};
   const composedTypes = {};
 
@@ -69,5 +66,14 @@ connectDatabases().then(async () => {
   });
 
   const schema = composer.buildSchema();
+  return schema;
+};
+
+connectDatabases().then(async () => {
+  const stringModel = require('./models/string.model');
+  const userModel = require('./models/user.model');
+  const performanceModel = require('./models/performance.model');
+
+  const schema = generateSchema(mongoose);
   await initGraphqlServer(schema);
 });
