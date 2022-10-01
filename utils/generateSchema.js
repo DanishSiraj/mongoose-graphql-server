@@ -24,6 +24,7 @@ const generateSchema = (mongoose) => {
   Object.keys(composedTypes).map((composedTypeName) => {
     const model = models[composedTypeName];
     const composedType = composedTypes[composedTypeName];
+    const schemaFields = Object.keys(model.schema.paths);
     Object.keys(model.schema.virtuals).map((virtualName) => {
       const virtual = model.schema.virtuals[virtualName];
       if (virtual?.options?.ref) {
@@ -32,13 +33,28 @@ const generateSchema = (mongoose) => {
         const foreignField = virtual.options.foreignField;
         const isSingle = virtual.options.justOne;
         let resolverOptions;
+
+        let searchField =
+          !schemaFields.includes(foreignField) &&
+          schemaFields.includes(localField)
+            ? foreignField
+            : schemaFields.includes(foreignField) &&
+              !schemaFields.includes(localField)
+            ? localField
+            : foreignField;
+
+        let searchInField =
+          searchField === foreignField ? localField : foreignField;
+
+        //Add Relationships
+
         if (isSingle) {
           resolverOptions = {
             resolver: () => composedTypes[refName].mongooseResolvers.findOne(),
             prepareArgs: {
               filter: (source) => ({
                 _operators: {
-                  [[localField]]: {in: source[[foreignField]]},
+                  [[searchField]]: {in: source[[searchInField]]},
                 },
                 limit: isSingle ? 1 : null,
               }),
@@ -50,7 +66,7 @@ const generateSchema = (mongoose) => {
             prepareArgs: {
               filter: (source) => ({
                 _operators: {
-                  [[foreignField]]: {in: source[[localField]]},
+                  [[searchField]]: {in: source[[searchInField]]},
                 },
               }),
             },
