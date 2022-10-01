@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
 const {ApolloServer} = require('apollo-server-express');
 const {
   express: voyagerMiddleware,
@@ -11,8 +10,6 @@ const initGraphQLServer = async (schema, port = 5000) => {
   const app = express();
 
   app.use(cors());
-
-  const httpServer = http.createServer(app);
 
   const server = new ApolloServer({
     schema: schema,
@@ -25,7 +22,7 @@ const initGraphQLServer = async (schema, port = 5000) => {
 
   server.applyMiddleware({app, path: '/graphql'});
 
-  httpServer.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.log(`🚀🚀🚀 The server is running at http://localhost:${PORT}/`);
   });
 
