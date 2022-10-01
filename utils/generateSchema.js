@@ -38,7 +38,7 @@ const generateSchema = (mongoose) => {
             prepareArgs: {
               filter: (source) => ({
                 _operators: {
-                  localField: {in: source[foreignField]},
+                  [[foreignField]]: {in: source[[localField]]},
                 },
                 limit: isSingle ? 1 : null,
               }),
@@ -50,9 +50,8 @@ const generateSchema = (mongoose) => {
             prepareArgs: {
               filter: (source) => ({
                 _operators: {
-                  localField: {in: source[foreignField]},
+                  [[foreignField]]: {in: source[[localField]]},
                 },
-                limit: isSingle ? 1 : null,
               }),
             },
           };
