@@ -1,5 +1,9 @@
 const {composeMongoose} = require('graphql-compose-mongoose');
-const {addSchemaFields, composer} = require('./schema-composer');
+const path = require('path');
+const {addSchemaFields, composer} = require(path.join(
+  __dirname,
+  './schema-composer'
+));
 
 const generateSchema = (mongoose) => {
   const models = {};
