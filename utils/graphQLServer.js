@@ -5,9 +5,7 @@ const {
   express: voyagerMiddleware,
 } = require('graphql-voyager/middleware/index.js');
 
-const createGraphQLServer = async (schema) => {
-  const app = express();
-
+const createGraphQLServer = async (schema, app = express()) => {
   app.use(cors());
 
   const server = new ApolloServer({
