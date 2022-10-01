@@ -1,2 +1,2 @@
 # Documentation updating soon 
-Till then find example to implement here at [https://github.com/DanishSiraj/mongoose-graphql-examples](examples)
+Till then find example to implement here at [examples repository](https://github.com/DanishSiraj/mongoose-graphql-examples)
