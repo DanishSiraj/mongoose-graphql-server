@@ -22,8 +22,8 @@ const stringPerformanceSchema = new Schema(
     }
   );
   
-  stringPerformanceSchema.virtual('string', {
-    ref: 'String',
+  stringPerformanceSchema.virtual('test', {
+    ref: 'Test',
     foreignField: '_id',
     localField: 'string_id',
     justOne: true,
