@@ -33,23 +33,37 @@ connectDatabases().then(async () => {
         const localField = virtual.options.localField;
         const foreignField = virtual.options.foreignField;
         const isSingle = virtual.options.justOne;
-        // let resolver;
-        // if (isSingle) {
-          
-        // } else {
-        // }
+        let resolverOptions;
+        if (isSingle) {
+          resolverOptions = {
+            resolver: () => composedTypes[refName].mongooseResolvers.findOne(),
+            prepareArgs: {
+              filter: (source) => ({
+                _operators: {
+                  localField: {in: source[foreignField]},
+                },
+                limit: isSingle ? 1 : null,
+              }),
+            },
+          };
+        } else {
+          resolverOptions = {
+            resolver: () => composedTypes[refName].mongooseResolvers.findMany(),
+            prepareArgs: {
+              filter: (source) => ({
+                _operators: {
+                  localField: {in: source[foreignField]},
+                },
+                limit: isSingle ? 1 : null,
+              }),
+            },
+          };
+        }
 
-        composedTypes[composedTypeName].addRelation(virtualName, {
-          resolver: () => composedTypes[refName].mongooseResolvers.findMany(),
-          prepareArgs: {
-            filter: (source) => ({
-              _operators: {
-                localField: {in: source[foreignField]},
-              },
-              limit: isSingle ? 1 : null,
-            }),
-          },
-        });
+        composedTypes[composedTypeName].addRelation(
+          virtualName,
+          resolverOptions
+        );
       }
     });
   });
