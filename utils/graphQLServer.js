@@ -5,8 +5,7 @@ const {
   express: voyagerMiddleware,
 } = require('graphql-voyager/middleware/index.js');
 
-const initGraphQLServer = async (schema, port = 5000) => {
-  const PORT = port;
+const createGraphQLServer = async (schema) => {
   const app = express();
 
   app.use(cors());
@@ -21,12 +20,8 @@ const initGraphQLServer = async (schema, port = 5000) => {
   await server.start();
 
   server.applyMiddleware({app, path: '/graphql'});
-
-  app.listen(PORT, () => {
-    console.log(`🚀🚀🚀 The server is running at http://localhost:${PORT}/`);
-  });
-
   app.use('/voyager', voyagerMiddleware({endpointUrl: '/graphql'}));
+  return app;
 };
 
-module.exports = initGraphQLServer;
+module.exports = createGraphQLServer;

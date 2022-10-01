@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const {connectDatabases} = require('./utils/connections');
 const generateSchema = require('./utils/generateSchema.js');
-const initGraphqlServer = require('./utils/graphQLServer.js');
+const createGraphQLServer = require('./utils/graphQLServer.js');
+const PORT = process.env.port || 3000;
 
 connectDatabases().then(async () => {
   const stringModel = require('./models/string.model');
@@ -9,5 +10,9 @@ connectDatabases().then(async () => {
   const performanceModel = require('./models/performance.model');
 
   const schema = generateSchema(mongoose);
-  await initGraphqlServer(schema, 3000);
+  const app = await createGraphQLServer(schema);
+
+  app.listen(PORT, () => {
+    console.log(`🚀🚀🚀 The server is running at http://localhost:${PORT}/`);
+  });
 });
