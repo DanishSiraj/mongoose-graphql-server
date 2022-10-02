@@ -30,7 +30,7 @@ Find example to implement here at [examples repository](https://github.com/Danis
 - Populating key needs to be present for deep nested populations
 
 ## ToDo
-- [] Write the documentation
-- [] Fix issues
-- [] Support custom field generator on genrated schema
-- [] Addition of custom query and mutation resolvers  
+- [ ] Write the documentation
+- [ ] Fix issues
+- [ ] Support custom field generator on genrated schema
+- [ ] Addition of custom query and mutation resolvers  
