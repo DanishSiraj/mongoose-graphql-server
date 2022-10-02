@@ -210,7 +210,7 @@ const init = async () => {
 
 // Register models 
 require('./user.model.js');
-require('./post.mode.js');
+require('./post.model.js');
 
 // Build the schema
 const schema = generateSchema(mongoose);
