@@ -1,6 +1,6 @@
 {
   "name": "mongoose-graphql-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -14,6 +14,9 @@
     "graphql-voyager": "^1.0.0-rc.31",
     "mongoose": "^6.6.3"
   },
+  "keywords": [
+  "mongoose",
+  "graphql"],
   "repository": "https://github.com/DanishSiraj/mongoose-graphql-server.git",
   "author": "Danish Siraj <danishsiraj38@gmail.com>"
 }
