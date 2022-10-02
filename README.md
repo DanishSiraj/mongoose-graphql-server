@@ -241,7 +241,8 @@ $ node index.js
 Find example to implement here at [examples repository](https://github.com/DanishSiraj/mongoose-graphql-examples)
 
 ## Issues
-- Supports sort,filter and populations only on indexed fields at the moment
+- At the moment populations are supported only on virtual fields and not on model field refs.
+- Supports sort,filter and populations only on indexed fields at the moment.
 - Populating key needs to be present for deep nested populations
 
 ## ToDo
