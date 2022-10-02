@@ -24,6 +24,9 @@ $ yarn add mongoose-graphql-server
 ```
 
 ## Example
+
+Use the endpoint ```/graphql``` to open graphQL studio, and ```/voyager``` to check the graphql voyager.
+
 ### Running with Mongoose
 
 ```
