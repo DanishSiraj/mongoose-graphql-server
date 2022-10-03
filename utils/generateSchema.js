@@ -29,7 +29,15 @@ const generateSchema = (mongoose) => {
     //Populate using refs
     Object.keys(model.schema.tree).map((key) => {
       if (model.schema.tree[key].ref) {
-        const refName = model?.schema?.tree[key]?.ref?.modelName;
+        const refName =
+          typeof model.schema.tree[key].ref === 'string'
+            ? model?.schema?.tree[key]?.ref
+            : model.schema.tree[key].ref?.modelName;
+
+        if (!Object.keys(composedTypes).includes(refName)) {
+          throw new Error('Invalid Ref');
+        }
+
         const resolverOptions = {
           resolver: () => composedTypes[refName].mongooseResolvers.findOne(),
           prepareArgs: {
@@ -46,7 +54,15 @@ const generateSchema = (mongoose) => {
       }
 
       if (model.schema.tree[key]?.[0]?.ref) {
-        const refName = model.schema.tree[key]?.[0]?.ref?.modelName;
+        const refName =
+          typeof model.schema.tree[key]?.[0]?.ref === 'string'
+            ? model.schema.tree[key]?.[0]?.ref
+            : model.schema.tree[key]?.[0]?.ref?.modelName;
+
+        if (!Object.keys(composedTypes).includes(refName)) {
+          throw new Error('Invalid Ref');
+        }
+
         const resolverOptions = {
           resolver: () => composedTypes[refName].mongooseResolvers.findMany(),
           prepareArgs: {
