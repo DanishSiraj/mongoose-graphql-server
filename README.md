@@ -68,7 +68,7 @@ db.once('open',init);
 ```
 
 #### Nested Populations
-This package supports deep nested populations by defining virtual fields on the models.
+This package supports deep nested populations if using model names as refs or defining virtual fields on the models.
 
 #### With Model Names
 Define the first `User` model in `user.model.js` file 
