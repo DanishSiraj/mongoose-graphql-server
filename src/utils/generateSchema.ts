@@ -1,16 +1,19 @@
-const {composeMongoose} = require('graphql-compose-mongoose');
-const path = require('path');
-const {addSchemaFields, composer} = require(path.join(
-  __dirname,
-  './schema-composer'
-));
+import {composeMongoose} from 'graphql-compose-mongoose';
+import {addSchemaFields, composer} from './schema-composer';
+import type {Connection, Mongoose} from 'mongoose';
+import type {ObjectTypeComposerWithMongooseResolvers} from 'graphql-compose-mongoose';
 
-const generateSchema = (mongoose) => {
-  const models = {};
-  const composedTypes = {};
+const generateSchema = (mongoose: Mongoose) => {
+  const models: {
+    [key: string]: any;
+  } = {};
 
-  mongoose.connections.map((connection) => {
-    Object.keys(connection.models).map((modelName) => {
+  const composedTypes: {
+    [key: string]: ObjectTypeComposerWithMongooseResolvers<any, any>;
+  } = {};
+
+  mongoose.connections.map((connection: Connection) => {
+    Object.keys(connection.models).map((modelName: string) => {
       models[modelName] = connection.models[modelName];
       const customizationOptions = {};
       composedTypes[modelName] = composeMongoose(
@@ -21,13 +24,13 @@ const generateSchema = (mongoose) => {
     });
   });
 
-  Object.keys(composedTypes).map((composedTypeName) => {
+  Object.keys(composedTypes).map((composedTypeName: string) => {
     const model = models[composedTypeName];
-    const composedType = composedTypes[composedTypeName];
+    // const composedType = composedTypes[composedTypeName];
     const schemaFields = Object.keys(model.schema.paths);
 
     //Populate using refs
-    Object.keys(model.schema.tree).map((key) => {
+    Object.keys(model.schema.tree).map((key: string) => {
       if (model.schema.tree[key].ref) {
         const refName =
           typeof model.schema.tree[key].ref === 'string'
@@ -41,7 +44,7 @@ const generateSchema = (mongoose) => {
         const resolverOptions = {
           resolver: () => composedTypes[refName].mongooseResolvers.findOne(),
           prepareArgs: {
-            filter: (source) => ({
+            filter: (source: any) => ({
               _operators: {
                 _id: {in: source[[key]]},
               },
@@ -66,7 +69,7 @@ const generateSchema = (mongoose) => {
         const resolverOptions = {
           resolver: () => composedTypes[refName].mongooseResolvers.findMany(),
           prepareArgs: {
-            filter: (source) => ({
+            filter: (source: any) => ({
               _operators: {
                 _id: {in: source[[key]]},
               },
@@ -80,7 +83,7 @@ const generateSchema = (mongoose) => {
     });
 
     //Populate using virutals
-    Object.keys(model.schema.virtuals).map((virtualName) => {
+    Object.keys(model.schema.virtuals).map((virtualName: string) => {
       const virtual = model.schema.virtuals[virtualName];
       if (virtual?.options?.ref) {
         const refName = virtual.options.ref;
@@ -89,7 +92,7 @@ const generateSchema = (mongoose) => {
         const isSingle = virtual.options.justOne;
         let resolverOptions;
 
-        let searchField =
+        let searchField: string =
           !schemaFields.includes(foreignField) &&
           schemaFields.includes(localField)
             ? foreignField
@@ -98,7 +101,7 @@ const generateSchema = (mongoose) => {
             ? localField
             : foreignField;
 
-        let searchInField =
+        let searchInField: string =
           searchField === foreignField ? localField : foreignField;
 
         //Add Relationships
@@ -107,7 +110,7 @@ const generateSchema = (mongoose) => {
           resolverOptions = {
             resolver: () => composedTypes[refName].mongooseResolvers.findOne(),
             prepareArgs: {
-              filter: (source) => ({
+              filter: (source: any) => ({
                 _operators: {
                   [[searchField]]: {in: source[[searchInField]]},
                 },
@@ -122,7 +125,7 @@ const generateSchema = (mongoose) => {
           resolverOptions = {
             resolver: () => composedTypes[refName].mongooseResolvers.findMany(),
             prepareArgs: {
-              filter: (source) => ({
+              filter: (source: any) => ({
                 _operators: {
                   [[searchField]]: {in: source[[searchInField]]},
                 },
@@ -146,4 +149,4 @@ const generateSchema = (mongoose) => {
   return schema;
 };
 
-module.exports = generateSchema;
+export default generateSchema;
