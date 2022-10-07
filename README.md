@@ -368,11 +368,11 @@ Find example to implement here at [examples repository](https://github.com/Danis
 ## Issues
 - At the moment populations are supported only on virtual fields and model names.
 - Supports sort,filter and populations only on indexed fields at the moment.
-- Populating key needs to be present for deep nested populations
+- Populating key needs to be present for deep nested populations of virtual fields.
 
 ## ToDo
 - [x] Write the documentation
 - [ ] Fix issues
 - [ ] Support custom field generator on genrated schema
 - [ ] Addition of custom query and mutation resolvers  
-- [ ] Converting this project to typescript
+- [x] Converting this project to typescript

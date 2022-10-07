@@ -1,7 +1,9 @@
-let {schemaComposer} = require('graphql-compose');
+import {schemaComposer} from 'graphql-compose';
+import type {SchemaComposer} from 'graphql-compose';
+import type {ObjectTypeComposerWithMongooseResolvers} from 'graphql-compose-mongoose';
 const addSchemaFields = (
-  name,
-  modelTC,
+  name: string,
+  modelTC: ObjectTypeComposerWithMongooseResolvers<any, any>,
   queryAdditional = {},
   mutationAdditional = {}
 ) => {
@@ -41,6 +43,6 @@ const addSchemaFields = (
   });
 };
 
-const composer = schemaComposer;
+const composer: SchemaComposer = schemaComposer;
 
-module.exports = {composer, addSchemaFields};
+export {composer, addSchemaFields};
