@@ -375,4 +375,4 @@ Find example to implement here at [examples repository](https://github.com/Danis
 - [ ] Fix issues
 - [ ] Support custom field generator on genrated schema
 - [ ] Addition of custom query and mutation resolvers  
-- [ ] Converting this project to typescript
+- [x] Converting this project to typescript
