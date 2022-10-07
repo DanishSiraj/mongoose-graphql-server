@@ -1,7 +1,11 @@
 {
   "name": "mongoose-graphql-server",
   "version": "1.0.7",
-  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "apollo-server-express": "^3.10.2",

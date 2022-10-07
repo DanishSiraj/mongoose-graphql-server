@@ -46,11 +46,11 @@ const generateSchema = (mongoose: Mongoose) => {
           prepareArgs: {
             filter: (source: any) => ({
               _operators: {
-                _id: {in: source[[key]]},
+                _id: {in: source[key]},
               },
             }),
           },
-          projection: {[[key]]: true},
+          projection: {[key]: true},
         };
         //generate
         composedTypes[composedTypeName].addRelation(key, resolverOptions);
@@ -71,11 +71,11 @@ const generateSchema = (mongoose: Mongoose) => {
           prepareArgs: {
             filter: (source: any) => ({
               _operators: {
-                _id: {in: source[[key]]},
+                _id: {in: source[key]},
               },
             }),
           },
-          projection: {[[key]]: true},
+          projection: {[key]: true},
         };
         //generate
         composedTypes[composedTypeName].addRelation(key, resolverOptions);
@@ -112,13 +112,13 @@ const generateSchema = (mongoose: Mongoose) => {
             prepareArgs: {
               filter: (source: any) => ({
                 _operators: {
-                  [[searchField]]: {in: source[[searchInField]]},
+                  [searchField]: {in: source[searchInField]},
                 },
                 limit: isSingle ? 1 : null,
               }),
             },
             projection: {
-              [[searchField]]: true,
+              [searchField]: true,
             },
           };
         } else {
@@ -127,12 +127,12 @@ const generateSchema = (mongoose: Mongoose) => {
             prepareArgs: {
               filter: (source: any) => ({
                 _operators: {
-                  [[searchField]]: {in: source[[searchInField]]},
+                  [searchField]: {in: source[searchInField]},
                 },
               }),
             },
             projection: {
-              [[searchField]]: true,
+              [searchField]: true,
             },
           };
         }
