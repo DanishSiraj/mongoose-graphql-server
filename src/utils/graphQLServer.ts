@@ -1,21 +1,22 @@
 import express, {Application} from 'express';
-import cors from 'cors';
-import {ApolloServer} from 'apollo-server-express';
+import {ApolloServer, Config, ExpressContext} from 'apollo-server-express';
 import {express as voyagerMiddleware} from 'graphql-voyager/middleware/index.js';
-import type {GraphQLSchema} from 'graphql';
+import {GraphQLSchema} from 'graphql';
 
 const createGraphQLServer = async (
-  schema: GraphQLSchema,
+  config: GraphQLSchema | Config<ExpressContext>,
   app: Application = express()
 ) => {
-  app.use(cors());
+  let configuration: any =
+    config instanceof GraphQLSchema
+      ? {
+          schema: config,
+          introspection: true,
+          plugins: [],
+        }
+      : config;
 
-  const server = new ApolloServer({
-    schema: schema,
-    introspection: true,
-    // graphiql: true,
-    plugins: [],
-  });
+  const server = new ApolloServer(configuration);
 
   await server.start();
 
