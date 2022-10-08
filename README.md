@@ -1,6 +1,6 @@
 Automatically generates a GraphQL Server from mongoose models. Supports deep nested queries.
 Provides all the basic CRUD operations for all models on both native mongoose connection as well as created connections.
-Uses [graphql-compose-mongooose](https://github.com/graphql-compose/graphql-compose-mongoose) under the hood.
+Uses [graphql-compose-mongooose](https://github.com/graphql-compose/graphql-compose-mongoose) and [Apollo Server](https://www.apollographql.com/docs/apollo-server/) under the hood.
 
 
 - [Installation](#installation)
@@ -10,6 +10,8 @@ Uses [graphql-compose-mongooose](https://github.com/graphql-compose/graphql-comp
     - [With Model Names](#with-model-names)
     - [With Virtuals](#with-virtuals)
   - [Using Express Server](#using-express-server) 
+- [Configuration](#configuration)
+  - [Configuring Apollo Server](#configuring-apollo-server)
 - [Known Issues](#issues)
 - [ToDo List](#todo)
 
@@ -364,6 +366,21 @@ $ node index.js
 ```
 
 Find example to implement here at [examples repository](https://github.com/DanishSiraj/mongoose-graphql-examples)
+
+## Configuration
+
+### Configuring Apollo Server
+Features like schema introspection, cache, csrfPrevention can be configured by passing in the Apollo Server Configuration Object in the ```createGraphQLServer``` method.
+
+```
+const app = await createGraphQLServer({
+  schema,
+  introspection: false
+});
+```
+
+The full list of customization options can be found at [Apollo Server Docs](https://www.apollographql.com/docs/apollo-server/api/apollo-server)
+
 
 ## Issues
 - At the moment populations are supported only on virtual fields and model names.
