@@ -1,6 +1,5 @@
 import express, {Application, Router} from 'express';
 import {ApolloServer, Config, ExpressContext} from 'apollo-server-express';
-import {express as voyagerMiddleware} from 'graphql-voyager/middleware/index.js';
 import {GraphQLSchema} from 'graphql';
 
 const createGraphQLServer = async (
@@ -21,7 +20,6 @@ const createGraphQLServer = async (
   await server.start();
 
   server.applyMiddleware({app, path: '/graphql'});
-  app.use('/voyager', voyagerMiddleware({endpointUrl: '/graphql'}));
   return app;
 };
 
@@ -47,7 +45,7 @@ const createGraphQLMiddleware = async (
     app: router as express.Application,
     path: '/graphql',
   });
-  router.use('/voyager', voyagerMiddleware({endpointUrl: '/graphql'}));
+
   return router;
 };
 
