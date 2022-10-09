@@ -582,6 +582,7 @@ The full list of customization options can be found at [Apollo Server Docs](http
 ## ToDo
 
 - [x] Write the documentation
+- [ ] Write Tests
 - [ ] Fix issues
 - [x] Support custom field generator on genrated schema
 - [x] Addition of custom query and mutation resolvers
