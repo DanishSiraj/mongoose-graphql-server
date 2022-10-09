@@ -1,4 +1,4 @@
-Automatically generates a GraphQL Server from mongoose models. Provides all the basic CRUD operations for all models on both native mongoose connection as well as created connections. Supports deep nested populations.
+Automatically generates a GraphQL Server from mongoose models. Provides all the basic CRUD operations for all models on both native mongoose connection as well as created connections. Supports deep nested populations for queries.
 
 Uses [graphql-compose-mongooose](https://github.com/graphql-compose/graphql-compose-mongoose) and [Apollo Server](https://www.apollographql.com/docs/apollo-server/) under the hood.
 
