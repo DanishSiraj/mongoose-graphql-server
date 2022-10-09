@@ -1,5 +1,4 @@
 import {schemaComposer} from 'graphql-compose';
-import type {SchemaComposer} from 'graphql-compose';
 import type {ObjectTypeComposerWithMongooseResolvers} from 'graphql-compose-mongoose';
 const addSchemaFields = (
   name: string,
@@ -43,6 +42,6 @@ const addSchemaFields = (
   });
 };
 
-const composer: SchemaComposer = schemaComposer;
+// const composer: SchemaComposer = schemaComposer;
 
-export {composer, addSchemaFields};
+export {schemaComposer, addSchemaFields};
