@@ -1,17 +1,17 @@
 import {composeMongoose} from 'graphql-compose-mongoose';
-import {addSchemaFields, composer} from './schema-composer';
+import {addSchemaFields, schemaComposer} from './schemaComposer';
 import type {Connection, Mongoose} from 'mongoose';
 import type {ObjectTypeComposerWithMongooseResolvers} from 'graphql-compose-mongoose';
 
+const models: {
+  [key: string]: any;
+} = {};
+
+const composedTypes: {
+  [key: string]: ObjectTypeComposerWithMongooseResolvers<any, any>;
+} = {};
+
 const generateSchema = (mongoose: Mongoose) => {
-  const models: {
-    [key: string]: any;
-  } = {};
-
-  const composedTypes: {
-    [key: string]: ObjectTypeComposerWithMongooseResolvers<any, any>;
-  } = {};
-
   mongoose.connections.map((connection: Connection) => {
     Object.keys(connection.models).map((modelName: string) => {
       models[modelName] = connection.models[modelName];
@@ -145,8 +145,8 @@ const generateSchema = (mongoose: Mongoose) => {
     });
   });
 
-  const schema = composer.buildSchema();
+  const schema = schemaComposer.buildSchema();
   return schema;
 };
 
-export default generateSchema;
+export {generateSchema, composedTypes};
