@@ -12,6 +12,7 @@ Uses [graphql-compose-mongooose](https://github.com/graphql-compose/graphql-comp
     - [As Express Middleware](#as-express-middleware)
     - [From GraphQL Server](#from-graphql-server)
     - [Using Existing Instance](#using-existing-instance)
+- [Adding Custom Query and Mutations](#adding-custom-query-and-mutations)
 - [Configuration](#configuration)
   - [Configuring Apollo Server](#configuring-apollo-server)
 - [Known Issues](#issues)
@@ -35,7 +36,7 @@ $ yarn add mongoose-graphql-server
 
 Use the endpoint `/graphql` to open graphQL studio. The examples to implement can also be found here at [examples repository](https://github.com/DanishSiraj/mongoose-graphql-examples)
 
-### Running with Mongoose
+#### Running with Mongoose
 
 ```
 const mongoose = require('mongoose');
@@ -74,7 +75,7 @@ app.listen(PORT, () => {
 db.once('open',init);
 ```
 
-#### Nested Populations
+### Nested Populations
 
 This package supports deep nested populations if using model names as refs or defining virtual fields on the models.
 
@@ -478,6 +479,85 @@ Run the server
 $ node index.js
 ```
 
+## Adding Custom Query and Mutations
+
+When needed custom Query and Mutation fields can be defined in the GraphQl schema by using ```addQueryFields``` and ```addMutationFields``` functions. Additional types can also be defined using the ```schemaComposer``` which is an instance of SchemaComposer from [graqhql-compose](graphql-compose.github.io). Full documentation for customization can be found on their official [docs](https://graphql-compose.github.io/docs/basics/understanding-types.html) page.
+
+```
+const mongoose = require('mongoose');
+const {
+    generateSchema,
+    createGraphQLServer,
+    addQueryFields,
+    addMutationFields,
+    schemaComposer
+} = require('mongoose-graphql-server');
+const PORT = process.env.port || 3000;
+
+mongoose.connect('mongodb://localhost/test');
+const db = mongoose.connection;
+
+const init = async () => {
+
+    // Register models 
+    const Cat = mongoose.model('Cat', { name: String });
+
+    // Build the schema
+    let schema = generateSchema(mongoose);
+
+    // Add custom types and input types
+    const Test = schemaComposer.createObjectTC(`
+    type Test {
+        name: String
+        age: Int
+    }
+    `);
+
+    const TestInput = schemaComposer.createInputTC(`
+    input TestInput {
+        name: String
+    }`);
+
+    // Add custom query fields
+    addQueryFields({
+        "testQuery": {
+            type: [Test],
+            args: { input: TestInput },
+            resolve: (source, args, context, info) => {
+                return [{ "name": "test", "age": 1 }];
+            },
+        }
+    })
+
+    // Add custom mutation fields
+    addMutationFields({
+        "testMutation": {
+            type: [Test],
+            args: { input: TestInput },
+            resolve: (source, args, context, info) => {
+                return [{ "name": "test", "age": 1 }];
+            },
+        }
+    })
+
+    //rebuild the schema
+    schema = schemaComposer.buildSchema();
+
+    // Create the graphQL server
+    const app = await createGraphQLServer(schema);
+
+    // Start the server
+
+    app.listen(PORT, () => {
+        console.log(`Server is running at http://localhost:${PORT}/`);
+        console.log(`GraphQL is running at http://localhost:${PORT}/graphql`);
+    })
+
+}
+
+db.once('open', init);
+```
+
 ## Configuration
 
 ### Configuring Apollo Server
@@ -503,6 +583,6 @@ The full list of customization options can be found at [Apollo Server Docs](http
 
 - [x] Write the documentation
 - [ ] Fix issues
-- [ ] Support custom field generator on genrated schema
-- [ ] Addition of custom query and mutation resolvers
+- [x] Support custom field generator on genrated schema
+- [x] Addition of custom query and mutation resolvers
 - [x] Converting this project to typescript
