@@ -1,6 +1,6 @@
 {
   "name": "mongoose-graphql-server",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "files": [
     "lib"
   ],
@@ -14,8 +14,7 @@
     "graphql": "^16.6.0",
     "graphql-compose": "^9.0.9",
     "graphql-compose-mongoose": "^9.7.2",
-    "graphql-tools": "^8.3.6",
-    "graphql-voyager": "^1.0.0-rc.31"
+    "graphql-tools": "^8.3.6"
   },
   "keywords": [
     "mongoose",
