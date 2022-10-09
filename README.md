@@ -1,5 +1,5 @@
-Automatically generates a GraphQL Server from mongoose models. Supports deep nested queries.
-Provides all the basic CRUD operations for all models on both native mongoose connection as well as created connections.
+Automatically generates a GraphQL Server from mongoose models. Provides all the basic CRUD operations for all models on both native mongoose connection as well as created connections. Supports deep nested queries.
+
 Uses [graphql-compose-mongooose](https://github.com/graphql-compose/graphql-compose-mongoose) and [Apollo Server](https://www.apollographql.com/docs/apollo-server/) under the hood.
 
 - [Installation](#installation)
@@ -33,7 +33,7 @@ $ yarn add mongoose-graphql-server
 
 ## Example
 
-Use the endpoint `/graphql` to open graphQL studio.
+Use the endpoint `/graphql` to open graphQL studio. The examples to implement can also be found here at [examples repository](https://github.com/DanishSiraj/mongoose-graphql-examples)
 
 ### Running with Mongoose
 
@@ -477,8 +477,6 @@ Run the server
 ```console
 $ node index.js
 ```
-
-Find example to implement here at [examples repository](https://github.com/DanishSiraj/mongoose-graphql-examples)
 
 ## Configuration
 
