@@ -1,4 +1,4 @@
-import {generateSchema} from './utils/generateSchema';
+import {generateSchema, composedTypes} from './utils/generateSchema';
 import {schemaComposer} from 'graphql-compose';
 import {
   addModelFields,
@@ -7,15 +7,16 @@ import {
 } from './utils/customOptions';
 import {
   createGraphQLServer,
-  createGraphQLMiddleware,
+  // createGraphQLMiddleware,
 } from './utils/graphQLServer';
 
 export {
   generateSchema,
   createGraphQLServer,
-  createGraphQLMiddleware,
+  // createGraphQLMiddleware,
   schemaComposer,
   addModelFields,
   addQueryFields,
   addMutationFields,
+  composedTypes,
 };
