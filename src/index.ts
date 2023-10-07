@@ -1,4 +1,4 @@
-import {generateSchema} from './utils/generateSchema';
+import {generateSchema, composedTypes} from './utils/generateSchema';
 import {schemaComposer} from 'graphql-compose';
 import {
   addModelFields,
@@ -18,4 +18,5 @@ export {
   addModelFields,
   addQueryFields,
   addMutationFields,
+  composedTypes,
 };
