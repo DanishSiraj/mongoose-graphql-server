@@ -7,13 +7,13 @@ import {
 } from './utils/customOptions';
 import {
   createGraphQLServer,
-  // createGraphQLMiddleware,
+  createGraphQLMiddleware,
 } from './utils/graphQLServer';
 
 export {
   generateSchema,
   createGraphQLServer,
-  // createGraphQLMiddleware,
+  createGraphQLMiddleware,
   schemaComposer,
   addModelFields,
   addQueryFields,

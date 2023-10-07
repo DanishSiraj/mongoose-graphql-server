@@ -1,7 +1,4 @@
-import express, {
-  Application,
-  // Router
-} from 'express';
+import express, {Application, Router} from 'express';
 import {
   ApolloServer,
   ApolloServerOptionsWithStaticSchema,
@@ -53,33 +50,40 @@ const createGraphQLServer = async (
   return app;
 };
 
-// const createGraphQLMiddleware = async (
-//   config: GraphQLSchema | Config<ExpressContext>
-// ) => {
-//   const router: Router = Router();
+const createGraphQLMiddleware = async (
+  config:
+    | GraphQLSchema
+    | ApolloServerOptionsWithStaticSchema<ExpressContextFunctionArgument>
+) => {
+  const router: Router = Router();
 
-//   let configuration: any =
-//     config instanceof GraphQLSchema
-//       ? {
-//           schema: config,
-//           introspection: true,
-//           plugins: [],
-//         }
-//       : config;
+  let configuration: any =
+    config instanceof GraphQLSchema
+      ? {
+          schema: config,
+          introspection: true,
+          plugins: [],
+        }
+      : config;
 
-//   const server = new ApolloServer(configuration);
+  const server = new ApolloServer(configuration);
 
-//   await server.start();
+  await server.start();
 
-//   server.applyMiddleware({
-//     app: router as express.Application,
-//     path: '/graphql',
-//   });
+  router.use(
+    '/graphql',
+    cors<cors.CorsRequest>(),
+    json(),
+    expressMiddleware(server, {
+      context: async ({req}) => ({token: req.headers.token}),
+    })
+  );
+  // server.applyMiddleware({
+  //   app: router as express.Application,
+  //   path: '/graphql',
+  // });
 
-//   return router;
-// };
-
-export {
-  createGraphQLServer,
-  //  createGraphQLMiddleware
+  return router;
 };
+
+export {createGraphQLServer, createGraphQLMiddleware};
